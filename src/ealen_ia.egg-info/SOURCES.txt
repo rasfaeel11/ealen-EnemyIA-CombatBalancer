@@ -1,0 +1,11 @@
+pyproject.toml
+src/ealen_ia/__init__.py
+src/ealen_ia/atributos.py
+src/ealen_ia/classes.py
+src/ealen_ia/personagem.py
+src/ealen_ia.egg-info/PKG-INFO
+src/ealen_ia.egg-info/SOURCES.txt
+src/ealen_ia.egg-info/dependency_links.txt
+src/ealen_ia.egg-info/requires.txt
+src/ealen_ia.egg-info/top_level.txt
+tests/test_atributos.py
