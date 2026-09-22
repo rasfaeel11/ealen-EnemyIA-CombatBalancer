@@ -33,6 +33,44 @@ _DIVERGENTE_AZUL_VERMELHO = LinearSegmentedColormap.from_list(
     "azul_vermelho", [_AZUL, _CINZA_NEUTRO, _VERMELHO]
 )
 
+# Paleta categórica (slots 1-3 do palette.md da skill de dataviz) — ordem
+# fixa, nunca ciclada, pra até 3 séries num mesmo gráfico (ex: as 3 curvas de
+# XP da Camada 3).
+_CATEGORICO = ("#2a78d6", "#eb6834", "#1baf7a")
+
+
+def plot_series_multiplas(
+    series: dict[str, list[float]],
+    eixo_x: list[float],
+    caminho: str,
+    titulo: str,
+    ylabel: str,
+    xlabel: str = "nível",
+) -> None:
+    """Gráfico de linhas com até 3 séries nomeadas, cada uma numa cor fixa da
+    paleta categórica, com legenda — usado pela Camada 3 (progressão de XP)
+    pra comparar curvas diferentes sobre o mesmo eixo."""
+    fig, ax = plt.subplots(figsize=(7, 4.5), facecolor=_SUPERFICIE)
+    ax.set_facecolor(_SUPERFICIE)
+
+    for (nome, valores), cor in zip(series.items(), _CATEGORICO):
+        ax.plot(eixo_x, valores, color=cor, linewidth=2, label=nome)
+
+    ax.set_title(titulo, color=_TINTA_PRIMARIA, fontsize=13, loc="left")
+    ax.set_xlabel(xlabel, color=_TINTA_SECUNDARIA)
+    ax.set_ylabel(ylabel, color=_TINTA_SECUNDARIA)
+    ax.tick_params(colors=_TINTA_MUTED)
+    ax.grid(True, color=_GRADE, linewidth=0.8)
+    legenda = ax.legend(frameon=False, labelcolor=_TINTA_SECUNDARIA)
+    for texto in legenda.get_texts():
+        texto.set_color(_TINTA_SECUNDARIA)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    fig.tight_layout()
+    fig.savefig(caminho, dpi=150)
+    plt.close(fig)
+
 
 def plot_convergencia(historico_de_erro: list[float], caminho: str = "convergencia.png") -> None:
     """Gráfico de convergência do erro ao longo das iterações do auto-tuner —
